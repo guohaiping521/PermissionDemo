@@ -1,4 +1,4 @@
-package com.example.permissiondemo.Permission;
+package com.example.permissiondemo.PermissionFragment;
 /*
  * Created by ghp on 2018/3/12.
  */
@@ -10,7 +10,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import com.example.permissiondemo.Permission.PermissionHelper.PermissionListener;
+import com.example.permissiondemo.Helper.PermissionHelper;
+import com.example.permissiondemo.PermissionFragment.PermissionFragmentHelper.PermissionListener;
+
+import java.util.List;
 
 public class PermissionsFragment extends Fragment {
 
@@ -22,11 +25,12 @@ public class PermissionsFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.i("ghpppp", "PermissionsFragment onRequestPermissionsResult");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionHelper.REQUEST_PERMISSION) {
-            if (verifyPermissions(grantResults)) {
-                mPermissionListener.grantedPermission();
+        if (requestCode == PermissionFragmentHelper.REQUEST_PERMISSION) {
+            List<String> deniedPermissions = PermissionHelper.verifyPermissions(permissions, grantResults);
+            if (deniedPermissions != null && deniedPermissions.size() > 0) {
+                mPermissionListener.deniedPermission(deniedPermissions);
             }else{
-                mPermissionListener.deniedPermission();
+                mPermissionListener.grantedPermission();
             }
         }
     }
@@ -42,17 +46,7 @@ public class PermissionsFragment extends Fragment {
         return fragment;
     }
 
-    public static boolean verifyPermissions(int[] grantResults) {
-        if (grantResults.length < 1) {
-            return false;
-        }
-        for (int result : grantResults) {
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
+
     public void setPermissionListener(PermissionListener permissionListener) {
         mPermissionListener = permissionListener;
     }
