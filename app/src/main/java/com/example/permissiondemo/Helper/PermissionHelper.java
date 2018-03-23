@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class PermissionHelper {
 
     private static boolean lacksPermissions(Context context, String... permissions) {
         for (String permission : permissions) {
-            if (PermissionChecker.checkSelfPermission(context, permission) != PermissionChecker.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PermissionChecker.PERMISSION_GRANTED) {
                 return false;
             }
         }
