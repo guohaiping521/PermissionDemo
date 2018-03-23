@@ -19,7 +19,7 @@ public class BaseActivity extends FragmentActivity {
     public final static int REQUEST_PERMISSION = 1;
     private static OnPermissionCallback mCallback;
 
-    public static void requestPermission(String[] permissions, OnPermissionCallback onPermissionCallback) {
+    public static void requestPermission(OnPermissionCallback onPermissionCallback, String... permissions) {
         Activity topActivity = BaseApplication.getTopActivity();
         if (topActivity == null) {
             return;
