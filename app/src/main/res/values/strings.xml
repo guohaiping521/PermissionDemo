@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PermissionDemo</string>
+    <string name="permission_explain">权限被禁止，设置界面开始</string>
+    <string name="per_confirm">确定</string>
+    <string name="per_cancle">取消</string>
+
 </resources>

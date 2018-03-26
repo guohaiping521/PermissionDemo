@@ -4,8 +4,10 @@ package com.example.permissiondemo.Helper;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
@@ -31,6 +33,8 @@ public class PermissionHelper {
             } else {
                 ret = lacksPermissions(context, permissions);
             }
+        } else {
+            ret = lacksPermissions(context, permissions);
         }
         return ret;
     }
@@ -64,5 +68,16 @@ public class PermissionHelper {
             }
         }
         return deniedPermissions;
+    }
+
+    public static void openApplicationSettings(Context context, String packageName) {
+        Intent intent = openApplicationSettings(packageName);
+        context.startActivity(intent);
+    }
+
+    public static Intent openApplicationSettings(String packageName) {
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + packageName));
+        return intent;
     }
 }

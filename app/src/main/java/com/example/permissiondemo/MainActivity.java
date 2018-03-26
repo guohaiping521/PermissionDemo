@@ -1,12 +1,15 @@
 package com.example.permissiondemo;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.permissiondemo.Helper.PermissionHelper;
 import com.example.permissiondemo.PermissionActivity.BaseActivity;
 import com.example.permissiondemo.PermissionFragment.PermissionFragmentHelper;
 import java.util.List;
@@ -41,6 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             Log.i(TAG, "权限fail===" + deniedPermission);
                         }
                         Toast.makeText(MainActivity.this, "权限申请失败", Toast.LENGTH_SHORT).show();
+                        PermissionDenied();
                     }
                 }).requestPermissions(PERMISSIONS_CALENDAR);
                 break;
@@ -62,6 +66,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }, PERMISSIONS_CALENDAR);
                 break;
         }
+    }
+
+    public void PermissionDenied() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.permission_explain))
+                .setCancelable(false)
+                .setPositiveButton(R.string.per_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PermissionHelper.openApplicationSettings(getApplicationContext(), getPackageName());
+                    }
+                })
+                .setNegativeButton(R.string.per_cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "点击了取消", Toast.LENGTH_SHORT).show();
+                    }
+                }).create();
+        alertDialog.show();
     }
 
     /**
